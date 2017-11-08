@@ -1,0 +1,62 @@
+.main {
+  text-align: center;
+}
+.square {
+  font-weight: 900;
+  padding: 50px;
+  background-color: lightgrey;
+  display: inline-block;
+  border: solid 5px grey;
+}
+.num {
+  background-color: black;
+  color: lightgrey;
+}
+.num0 {
+  background-color: lightgrey;
+  color: white;
+}
+.num2 {
+  background-color: red;
+  color: white;
+}
+.num4 {
+  background-color: orange;
+  color: white;
+}
+.num8 {
+  background-color: blue;
+  color: white;
+}
+.num16 {
+  background-color: green;
+  color: white;
+}
+.num32 {
+  background-color: purple;
+  color: white;
+}
+.num64 {
+  background-color: yellow;
+  color: white;
+}
+.num128 {
+  background-color: brown;
+  color: white;
+}
+.num256 {
+  background-color: cyan;
+  color: white;
+}
+.num512 {
+  background-color: pink;
+  color: white;
+}
+.num1024 {
+  background-color: orangered;
+  color: white;
+}
+.num2048 {
+  background-color: darkgoldenrod;
+  color: white;
+}

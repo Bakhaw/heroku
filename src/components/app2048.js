@@ -4,7 +4,7 @@ class App2048 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares : [[0,0,0,0],[2,2,0,0],[0,2,0,2],[2,2,2,2]],
+      squares : [[16,8,4,2],[8,4,2,16],[4,2,16,8],[2,16,8,16]],
       won : false,
       lost : false
     }
@@ -23,6 +23,7 @@ class App2048 extends Component {
   //need to finish function lost
   hasLostGame(pArray){
     let emptySquares = 0;
+    let movesAvailables = 0;
     for (let x=0; x<pArray.length; x++){
       for (let y=0; y<pArray[x].length; y++){
         if (pArray[x][y] === 0) {
@@ -31,9 +32,8 @@ class App2048 extends Component {
       }
     }
 
-    if (emptySquares === 0) { //if no empty squares
-      let movesAvailables = 0;
-      //check if no moves possibles
+    if (emptySquares === 0) { //no empty squares
+      //check if no moves are possibles
       for (let a=1; a<pArray.length; a++){
         for (let b=0; b<pArray[a].length; b++){
           if(pArray[a-1][b]===pArray[a][b]){
@@ -49,9 +49,17 @@ class App2048 extends Component {
         }
       }
     } //empty square available
-
+    if ((movesAvailables === 0) && (emptySquares === 0)){
+      this.setState({
+        won : false,
+        lost : true
+      });
+      console.log("failed");
+      //add lost message and reset state
+    }
   }
 
+  //need to finish
   hasWonGame(pArray){
     for (let x=0; x<pArray.length; x++){
       for (let y=0; y<pArray[x].length; y++){
@@ -60,7 +68,6 @@ class App2048 extends Component {
             won : true,
             lost : false
           });
-          // console.log('gagné'); //ok
           // win message and reset state
         }
       }
@@ -98,10 +105,10 @@ class App2048 extends Component {
                     arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
                   } else if (arrayChanged[k+2][l]===arrayChanged[k+3][l]){
                       arrayChanged[k][l] = arrayChanged[k+1][l];
-                      arrayChanged[k+1][l] = arrayChanged[k+2][l]*2;
+                      arrayChanged[k+1][l] = arrayChanged[k+2][l] * 2;
                       arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
                   } else if ((arrayChanged[k+1][l] === arrayChanged[k+3][l]) && (arrayChanged[k+2][l]===0)){
-                    arrayChanged[k][l] = arrayChanged[k+1][l]*2;
+                    arrayChanged[k][l] = arrayChanged[k+1][l] * 2;
                     arrayChanged[k+1][l] = arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
                   } else {
                     arrayChanged[k][l] = arrayChanged[k+1][l];
@@ -111,7 +118,42 @@ class App2048 extends Component {
                   }
                 }
               } else {// [k][l] != 0
-                //le gros bordel recommence ici....
+                if (arrayChanged[k][l] === arrayChanged[k+1][l]){
+                  arrayChanged[k][l] = arrayChanged[k+1][l] * 2;
+                  if(arrayChanged[k+2][l] === arrayChanged[k+3][l]){
+                    arrayChanged[k+1][l] = arrayChanged[k+2][l] * 2;
+                    arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
+                  } else {
+                    arrayChanged[k+1][l] = arrayChanged[k+2][l];
+                    arrayChanged[k+2][l] = arrayChanged[k+3][l];
+                    arrayChanged[k+3][l] = 0;
+                  }
+                } else if (arrayChanged[k][l] === arrayChanged[k+2][l]){
+                  if (arrayChanged[k+1][l] === 0){
+                    arrayChanged[k][l] = arrayChanged[k+2][l] * 2;
+                    arrayChanged[k+2][l] = 0;
+                    if (arrayChanged[k+3][l] !== 0){
+                      arrayChanged[k+1][l] = arrayChanged[k+3][l];
+                      arrayChanged[k+3][l] = 0;
+                    }
+                  } else if (arrayChanged[k+2][l] === arrayChanged[k+3][l]){
+                    arrayChanged[k+2][l] = arrayChanged[k+3][l] * 2;
+                    arrayChanged[k+3][l] = 0;
+                  }
+                } else if (arrayChanged[k][l] === arrayChanged[k+3][l]){
+                  if (arrayChanged[k+1][l] === 0){
+                    if (arrayChanged[k+2][l] === 0){
+
+                    } else {
+
+                    }
+                  } else if (arrayChanged[k+2][l] === 0){
+                    if (arrayChanged[k+1][l] === arrayChanged[k+3][l]){
+                      arrayChanged[k+1][l] = arrayChanged[k+3][l] * 2;
+                      arrayChanged[k+3][l] = 0;
+                    }
+                  }
+                }
               }
               break;
             }/*
@@ -188,10 +230,8 @@ class App2048 extends Component {
       }
       case 38 : {
         moved = this.mouvementUp(squareState);
-        // moved = this.mouvementUp(squareState);
-        // moved = this.mouvementUp(squareState);
         //call generate random here
-        //call lost here
+        this.hasLostGame(moved);
         this.hasWonGame(moved);
         break;
       }

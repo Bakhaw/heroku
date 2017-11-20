@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
 class App2048 extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      squares : [[16,8,4,2],[8,4,2,16],[4,2,16,8],[2,16,8,16]],
-      won : false,
-      lost : false
-    }
+  state = {
+    squares : [ [0,0,0,0],
+                [2,2,2,2],
+                [4,2,2,2],
+                [0,4,2,4]
+              ],
+    won : false,
+    lost : false
   }
 
   componentWillMount() {
@@ -79,96 +80,117 @@ class App2048 extends Component {
     arrayChanged = pArray;
     for (let k=0; k<arrayChanged.length; k++){
       for (let l=0; l<arrayChanged[k].length; l++){
-          switch(k){
+          switch(k){//delete switch replace with if
             case 0: {
-              if(arrayChanged[k][l]===0){
-                if(arrayChanged[k+1][l]===0){
-                  if (arrayChanged[k+2][l]===0){
-                    if (arrayChanged[k+3][l]!==0){
+              if(arrayChanged[k][l] === 0){
+                if(arrayChanged[k+1][l] === 0){
+                  if (arrayChanged[k+2][l] === 0){
+                    if (arrayChanged[k+3][l] !== 0){
                       arrayChanged[k][l] = arrayChanged[k+3][l];
                       arrayChanged[k+3][l] = 0;
                     } // row empty, do nothing
-                  } else { // [k+2][l] != 0 // k & k+1 =0
+                  } else { // k+2 != 0 && k = k+1 = 0
                     if (arrayChanged[k+2][l] === arrayChanged[k+3][l]){
                       arrayChanged[k][l] = arrayChanged[k+2][l]*2;
                       arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
-                    } else { // [k+2][l] !=  [k+3][l]
+                    } else { // k+2 !=  k+3
                       arrayChanged[k][l] = arrayChanged[k+2][l];
                       arrayChanged[k+1][l] = arrayChanged[k+3][l];
                       arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
                     }
                   }
-                } else { // [k+1][l] != 0 //k = 0
-                  if (arrayChanged[k+1][l]===arrayChanged[k+2][l]){
-                    arrayChanged[k][l] = arrayChanged[k+1][l]*2;
-                    arrayChanged[k+1][l] = arrayChanged[k+3][l];
-                    arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
-                  } else if (arrayChanged[k+2][l]===arrayChanged[k+3][l]){
+                } else { // k = 0 && k+1 != 0
+                  if (arrayChanged[k+2][l] === 0) {
+                    if (arrayChanged[k+1][l] === arrayChanged[k+3][l]){
+                      arrayChanged[k][l] = arrayChanged[k+1][l] * 2;
+                      arrayChanged[k+1][l] = arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
+                    } else {
                       arrayChanged[k][l] = arrayChanged[k+1][l];
-                      arrayChanged[k+1][l] = arrayChanged[k+2][l] * 2;
-                      arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
-                  } else if ((arrayChanged[k+1][l] === arrayChanged[k+3][l]) && (arrayChanged[k+2][l]===0)){
-                    arrayChanged[k][l] = arrayChanged[k+1][l] * 2;
-                    arrayChanged[k+1][l] = arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
-                  } else {
-                    arrayChanged[k][l] = arrayChanged[k+1][l];
-                    arrayChanged[k+1][l] = arrayChanged[k+2][l];
-                    arrayChanged[k+2][l] = arrayChanged[k+3][l];
-                    arrayChanged[k+3][l] = 0;
-                  }
-                }
-              } else {// [k][l] != 0
-                if (arrayChanged[k][l] === arrayChanged[k+1][l]){
-                  arrayChanged[k][l] = arrayChanged[k+1][l] * 2;
-                  if(arrayChanged[k+2][l] === arrayChanged[k+3][l]){
-                    arrayChanged[k+1][l] = arrayChanged[k+2][l] * 2;
-                    arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
-                  } else {
-                    arrayChanged[k+1][l] = arrayChanged[k+2][l];
-                    arrayChanged[k+2][l] = arrayChanged[k+3][l];
-                    arrayChanged[k+3][l] = 0;
-                  }
-                } else if (arrayChanged[k][l] === arrayChanged[k+2][l]){
-                  if (arrayChanged[k+1][l] === 0){
-                    arrayChanged[k][l] = arrayChanged[k+2][l] * 2;
-                    arrayChanged[k+2][l] = 0;
-                    if (arrayChanged[k+3][l] !== 0){
                       arrayChanged[k+1][l] = arrayChanged[k+3][l];
                       arrayChanged[k+3][l] = 0;
                     }
-                  } else if (arrayChanged[k+2][l] === arrayChanged[k+3][l]){
-                    arrayChanged[k+2][l] = arrayChanged[k+3][l] * 2;
-                    arrayChanged[k+3][l] = 0;
-                  }
-                } else if (arrayChanged[k][l] === arrayChanged[k+3][l]){
-                  if (arrayChanged[k+1][l] === 0){
-                    if (arrayChanged[k+2][l] === 0){
-
+                  } else { //k = 0 && k+1 != 0 && k+2 != 0
+                    if (arrayChanged[k+1][l] === arrayChanged[k+2][l]){
+                      arrayChanged[k][l] = arrayChanged[k+1][l] * 2;
+                      arrayChanged[k+1][l] = arrayChanged[k+3][l];
+                      arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
                     } else {
-
+                      if (arrayChanged[k+2][l] === arrayChanged[k+3][l]){
+                        arrayChanged[k][l] = arrayChanged[k+1][l];
+                        arrayChanged[k+1][l] = arrayChanged[k+2][l] * 2;
+                        arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
+                      } else {
+                        arrayChanged[k][l] = arrayChanged[k+1][l];
+                        arrayChanged[k+1][l] = arrayChanged[k+2][l];
+                        arrayChanged[k+2][l] = arrayChanged[k+3][l];
+                        arrayChanged[k+3][l] = 0;
+                      }
                     }
-                  } else if (arrayChanged[k+2][l] === 0){
-                    if (arrayChanged[k+1][l] === arrayChanged[k+3][l]){
-                      arrayChanged[k+1][l] = arrayChanged[k+3][l] * 2;
+                  }
+                }
+              } else {// [k][l] != 0
+                if (arrayChanged[k+1][l] !== 0){
+                  if (arrayChanged[k][l] === arrayChanged[k+1][l]){
+                    arrayChanged[k][l] = arrayChanged[k+1][l] * 2;
+                    if(arrayChanged[k+2][l] === arrayChanged[k+3][l]){
+                      arrayChanged[k+1][l] = arrayChanged[k+2][l] * 2;
+                      arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
+                    } else {
+                      arrayChanged[k+1][l] = arrayChanged[k+2][l];
+                      arrayChanged[k+2][l] = arrayChanged[k+3][l];
                       arrayChanged[k+3][l] = 0;
+                    } //ok
+                  } else { //k != k+1
+                    if (arrayChanged[k+2][l] === arrayChanged[k+3][l]){
+                      arrayChanged[k+2][l] = arrayChanged[k+3][l] * 2;
+                      arrayChanged[k+3][l] = 0;
+                    } else {
+                      if (arrayChanged[k+2][l] === 0){
+                        if (arrayChanged[k+1][l] === arrayChanged[k+3][l]){
+                          arrayChanged[k+1][l] = arrayChanged[k+3][l] * 2;
+                          arrayChanged[k+3][l] = 0;
+                        } else {
+                          arrayChanged[k+2][l] = arrayChanged[k+3][l];
+                          arrayChanged[k+3][l] = 0;
+                        }
+                      } else { //k != k+1 && k+2 != 0
+                        if (arrayChanged[k+1][l] === arrayChanged[k+2][l]){
+                          arrayChanged[k+1][l] = arrayChanged[k+2][l] * 2;
+                          arrayChanged[k+2][l] = arrayChanged[k+3][l];
+                          arrayChanged[k+3][l] = 0;
+                        }
+                      }
+                    }
+                  }
+                } else { //k+1 === 0
+                  if (arrayChanged[k+2][l] === 0){ //k != 0 && k+1 === 0 && k+2 === 0
+                    if (arrayChanged[k][l] === arrayChanged[k+3][l]){
+                      arrayChanged[k][l] = arrayChanged[k+3][l] * 2;
+                      arrayChanged[k+3][l] = 0;
+                    } else {
+                      arrayChanged[k+1][l] = arrayChanged[k+3][l];
+                      arrayChanged[k+3][l] = 0
+                    }
+                  } else { //k != 0 && k+1 === 0 && k+2 != 0
+                    if (arrayChanged[k][l] === arrayChanged[k+2][l]){
+                      arrayChanged[k][l] = arrayChanged[k+2][l] * 2;
+                      arrayChanged[k+1][l] = arrayChanged[k+3][l];
+                      arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
+                    } else {
+                      if (arrayChanged[k+2][l] === arrayChanged[k+3][l]){
+                        arrayChanged[k+1][l] = arrayChanged[k+2][l] * 2;
+                        arrayChanged[k+2][l] = arrayChanged[k+3][l] = 0;
+                      } else {
+                        arrayChanged[k+1][l] = arrayChanged[k+2][l];
+                        arrayChanged[k+2][l] = arrayChanged[k+3][l];
+                        arrayChanged[k+3][l] = 0;
+                      }
                     }
                   }
                 }
               }
               break;
-            }/*
-            case 1: {
-
-              break;
             }
-            case 2: {
-
-              break;
-            }
-            case 3: {
-
-              break;
-            }*/
             default: {
               break;
             }

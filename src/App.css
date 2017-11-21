@@ -1,5 +1,9 @@
 .main {
   text-align: center;
+  padding-top: 50px;
+}
+#message{
+  margin-bottom: 15px;
 }
 .square {
   font-weight: 900;
@@ -34,27 +38,27 @@
   color: white;
 }
 .num32 {
-  background-color: purple;
+  background-color: peru;
   color: white;
 }
 .num64 {
-  background-color: yellow;
+  background-color: purple;
   color: white;
 }
 .num128 {
-  background-color: brown;
+  background-color: darkblue;
   color: white;
 }
 .num256 {
-  background-color: cyan;
+  background-color: firebrick;
   color: white;
 }
 .num512 {
-  background-color: pink;
+  background-color: plum;
   color: white;
 }
 .num1024 {
-  background-color: orangered;
+  background-color: chocolate;
   color: white;
 }
 .num2048 {

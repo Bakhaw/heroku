@@ -103,7 +103,7 @@ class App2048 extends Component {
             } // row empty, do nothing
           } else { // k+2 != 0 && k = k+1 = 0
             if (arrayChanged[2][l] === arrayChanged[3][l]) {
-              arrayChanged[0][l] = arrayChanged[2][l]*2;
+              arrayChanged[0][l] = arrayChanged[2][l] * 2;
               arrayChanged[2][l] = arrayChanged[3][l] = 0;
             } else { // k+2 !=  k+3
               arrayChanged[0][l] = arrayChanged[2][l];
@@ -140,7 +140,7 @@ class App2048 extends Component {
             }
           }
         }
-      } else {// [0][l] != 0
+      } else { // [0][l] != 0
         if (arrayChanged[1][l] !== 0) {
           if (arrayChanged[0][l] === arrayChanged[1][l]) {
             arrayChanged[0][l] = arrayChanged[1][l] * 2;
@@ -153,7 +153,11 @@ class App2048 extends Component {
               arrayChanged[3][l] = 0;
             } //ok
           } else { //k != k+1
-            if (arrayChanged[2][l] === arrayChanged[3][l]) {
+            if (arrayChanged[1][l] === arrayChanged[2][l]){
+              arrayChanged[1][l] = arrayChanged[2][l] * 2;
+              arrayChanged[2][l] = arrayChanged[3][l];
+              arrayChanged[3][l] = 0;
+            } else if (arrayChanged[2][l] === arrayChanged[3][l]) {
               arrayChanged[2][l] = arrayChanged[3][l] * 2;
               arrayChanged[3][l] = 0;
             } else {
@@ -268,7 +272,11 @@ class App2048 extends Component {
               arrayChanged[0][l] = 0;
             }
           } else {
-            if (arrayChanged[1][l] === arrayChanged[0][l]) {
+            if (arrayChanged[2][l] === arrayChanged[1][l]) {
+              arrayChanged[2][l] = arrayChanged[1][l] * 2;
+              arrayChanged[1][l] = arrayChanged[0][l];
+              arrayChanged[0][l] = 0;
+            } else if (arrayChanged[1][l] === arrayChanged[0][l]) {
               arrayChanged[1][l] = arrayChanged[0][l] * 2;
               arrayChanged[0][l] = 0;
             } else {
@@ -383,7 +391,11 @@ class App2048 extends Component {
               arrayChanged[l][3] = 0;
             } //ok
           } else { //k != k+1
-            if (arrayChanged[l][2] === arrayChanged[l][3]) {
+            if (arrayChanged[l][1] === arrayChanged[l][2]) {
+              arrayChanged[l][1] = arrayChanged[l][2] * 2;
+              arrayChanged[l][2] = arrayChanged[l][3];
+              arrayChanged[l][3] = 0;
+            } else if (arrayChanged[l][2] === arrayChanged[l][3]) {
               arrayChanged[l][2] = arrayChanged[l][3] * 2;
               arrayChanged[l][3] = 0;
             } else {
@@ -498,7 +510,11 @@ class App2048 extends Component {
               arrayChanged[l][0] = 0;
             } //ok
           } else { //k != k+1
-            if (arrayChanged[l][1] === arrayChanged[l][0]) {
+            if (arrayChanged[l][2] === arrayChanged[l][1]) {
+              arrayChanged[l][2] = arrayChanged[l][1] * 2;
+              arrayChanged[l][1] = arrayChanged[l][0];
+              arrayChanged[l][0] = 0;
+            } else if (arrayChanged[l][1] === arrayChanged[l][0]) {
               arrayChanged[l][1] = arrayChanged[l][0] * 2;
               arrayChanged[l][0] = 0;
             } else {
@@ -549,8 +565,6 @@ class App2048 extends Component {
     }
     return arrayChanged;
   }
-
-
 
   onKeyPressed(e) {
     // console.log(e.keyCode); //return a number
